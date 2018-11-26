@@ -182,9 +182,11 @@ int main(int argc, char** argv) {
                         kentra = clustering.random(pinakasDianismatwn, plithos_systades);
                         break;
                     case KmeansPP:
-                        kentra = clustering.kmeanspp(pinakasDianismatwn, plithos_systades);
+                        kentra = clustering.kmeanspp(pinakasDianismatwn, plithos_systades, algorithmos_ektelesis);
                         break;
                 }
+                
+                kentra->print(cout);
 
                 // ...
 

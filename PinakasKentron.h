@@ -10,9 +10,12 @@ public:
     PinakasKentron(int n);
     virtual ~PinakasKentron();
     
+    void setDianisma(unsigned int i, Dianisma * );
     Dianisma * getDianisma(unsigned int i);
     Dianisma * getAndCheckDianisma(unsigned int i);
     unsigned int getN();
+    
+    void print(ostream & os);
 private:
     Dianisma ** deiktis;
     unsigned int n;

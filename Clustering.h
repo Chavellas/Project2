@@ -25,7 +25,7 @@ public:
     virtual ~Clustering();
     
     PinakasKentron * random(PinakasDianismaton * pd, int plithos_clusters);
-    PinakasKentron * kmeanspp(PinakasDianismaton * pd, int plithos_clusters);
+    PinakasKentron * kmeanspp(PinakasDianismaton * pd, int plithos_clusters, AlgorithmosEktelesis ae);
     
     PinakasAnathesewn * lloyd(PinakasDianismaton * pd,  PinakasKentron *);
     PinakasAnathesewn * lsh(PinakasDianismaton * pd,  PinakasKentron *, PinakaPinakon * pinakasPinakon, int K, int L);
