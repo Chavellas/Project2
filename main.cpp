@@ -168,7 +168,7 @@ int main(int argc, char** argv) {
                 switch (algorithmos_ananeosis) {
                     case PAM:
                         cout << "Update      : PAM " << endl;
-                        break;
+                        continue;
                     case Kmeans:
                         cout << "Update      : Kmeans " << endl;
                         break;
@@ -192,35 +192,64 @@ int main(int argc, char** argv) {
 
                 // ...
 
-                while (true) {
-                    PinakasAnathesewn * anatheseis;
+                bool stop = false;
+                int steps = 1;
+                PinakasAnathesewn * anatheseis = 0;
+
+                while (!stop) {
+                    steps++;
 
                     switch (algorithmos_anathesis) {
                         case LLOYD:
                             anatheseis = clustering.lloyd(pinakasDianismatwn, kentra, algorithmos_ektelesis);
                             break;
                         case LSH:
-                            //                            anatheseis = clustering.lloyd(pinakasDianismatwn, kentra);
+//                            anatheseis = clustering.lsh(pinakasDianismatwn, kentra, pinakasPinakon, h_functions, pinakes_katakermatismou, algorithmos_ektelesis);
                             break;
                     }
+
+                    if (anatheseis) {
+                        ektipotis.ektiposi(algorithmos_arxikopoiisis, algorithmos_anathesis, algorithmos_ananeosis, pinakasDianismatwn, kentra, anatheseis, algorithmos_ektelesis, false);
+
+                        switch (algorithmos_ananeosis) {
+                            case PAM:
+                                cout << "-------------------------------- Update      : PAM " << endl;
+                                stop = true;
+                                break;
+                            case Kmeans:
+                            {
+                                cout << "-------------------------------- Update      : Kmeans " << steps << endl;
+                                PinakasKentron * neakentra = clustering.kmeans(pinakasDianismatwn, kentra, anatheseis, algorithmos_ektelesis);
+
+                                if (clustering.elegxosApostasisKentron(kentra, neakentra, algorithmos_ektelesis) < 0.0000001) {
+                                    stop = true;
+                                } else {
+                                    kentra = neakentra;
+                                }
+                                break;
+                            }
+                        }
+                    }
+
+                    if (steps == 50) {
+                        stop = true;
+                    }
+
+                    if (!stop && anatheseis != NULL) {
+                        delete anatheseis;
+                    }
+                }
+
+                if (anatheseis != NULL) {
+                    cout << "Calculating Silhouette..." << endl;
+                    double sil = clustering.silouette(pinakasDianismatwn, kentra, anatheseis, algorithmos_ektelesis);
 
                     ektipotis.ektiposi(algorithmos_arxikopoiisis, algorithmos_anathesis, algorithmos_ananeosis, pinakasDianismatwn, kentra, anatheseis, algorithmos_ektelesis, false);
 
-
-
-                    switch (algorithmos_ananeosis) {
-                        case PAM:
-                            cout << "Update      : PAM " << endl;
-                            break;
-                        case Kmeans: {
-                            cout << "Update      : Kmeans " << endl;
-                            PinakasKentron * neakentra =  clustering.kmeans(pinakasDianismatwn, kentra, anatheseis, algorithmos_ektelesis);
-                            // ###
-                            break;
-                        }
-                    }
-                    break;
+                    cout << "_-~ Silhouette ~-_ : " << sil << endl;
                 }
+
+
             }
         }
     }

@@ -23,10 +23,12 @@ public:
     Dianisma * getDianisma(unsigned int i);
     Dianisma * getAndCheckDianisma(unsigned int i);
     unsigned int getN();
+    
+    
 private:
+    vector<string> * evresiPlisiesterouGeitonaProseggistikaSeAktina(PinakaPinakon * pp, Dianisma * dianysma, AlgorithmosEktelesis ae, double aktina);
     vector<void*> *  evresiPlisiesterouGeitona(Dianisma * dianysma, AlgorithmosEktelesis ae);
     vector<void*> *  evresiPlisiesterouGeitonaProseggistika(PinakaPinakon * pp, Dianisma * dianysma, AlgorithmosEktelesis ae);
-    vector<string> * evresiPlisiesterouGeitonaProseggistikaSeAktina(PinakaPinakon * pp, Dianisma * dianysma, AlgorithmosEktelesis ae, double aktina);
     Dianisma * deiktis;
     unsigned int n;
 };

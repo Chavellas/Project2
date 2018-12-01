@@ -40,10 +40,8 @@ void Ektipotis::ektiposi(unsigned algorithmos_arxikopoiisis, unsigned algorithmo
 
     list<unsigned int> * deiktis = new list<unsigned int>[kentra->getN()];
 
-
     for (unsigned int j = 0; j < pd->getN(); j++) {
-        Dianisma * apo = pd->getDianisma(j);
-
+//        Dianisma * apo = pd->getDianisma(j);
         deiktis[pinakasAnatheseon->getAnathesi(j)].push_back(j);
     }
 

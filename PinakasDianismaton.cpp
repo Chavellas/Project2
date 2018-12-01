@@ -55,9 +55,9 @@ unsigned int PinakasDianismaton::eisagogiDedomenon(ifstream & file) {
         getline(file, line);
         if (line[0] != '@') {
             //        cout << line << endl;
-            vector<string> words = sin.split(line, ' ');
+            vector<string> words = sin.split(line, ',');
             if (d == 0) {
-                d = words.size() - 2;
+                d = words.size() - 1;
             }
             deiktis[i - 1 - temp].SetTag(words[0]);
             for (unsigned int j = 1; j < words.size() - 1; j++) {
@@ -83,7 +83,7 @@ unsigned int PinakasDianismaton::anazitisiDedomenon(PinakaPinakon * pinakasPinak
     while (true) {
         getline(file, line);
         //        cout << line << endl;
-        vector<string> words = sin.split(line, ' ');
+        vector<string> words = sin.split(line, ',');
         if (words.size() == 0) {
             break;
         }

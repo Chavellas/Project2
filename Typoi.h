@@ -8,7 +8,7 @@ AM: 1115201300196
 
 // typos dedomenon dianismatos
 
-#define TDD int
+#define TDD double
 
 enum AlgorithmosEktelesis { Euclidean, Cosine, HyperCubeEuclidean, HyperCubeCosine };
 

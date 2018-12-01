@@ -24,9 +24,14 @@ public:
     int getAndCheckAnathesi(unsigned int i);
     int getN();
 
+     void setEfedrikiAnathesi(unsigned int i, unsigned cluster_id) ;
+    int getEfedrikiAnathesi(unsigned int i) ;
+    int getAndCheckEfedrikiAnathesi(unsigned int i);
+    
 private:
     int N;
     int * anatheseis;
+    int * efedrikesanatheseis;
 };
 
 #endif /* PINAKASANATHESEWN_H */

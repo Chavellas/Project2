@@ -18,6 +18,9 @@
 #include "PinakasKentron.h"
 #include "PinakasAnathesewn.h"
 
+#include <list>
+
+using namespace std;
 
 class Clustering {
 public:
@@ -33,8 +36,11 @@ public:
     PinakasKentron * pam(PinakasDianismaton * pd, PinakasKentron *, PinakasAnathesewn *  );
     PinakasKentron * kmeans(PinakasDianismaton * pd, PinakasKentron *kentra, PinakasAnathesewn * anatheseis, AlgorithmosEktelesis ae);
     
+    double elegxosApostasisKentron(PinakasKentron *,PinakasKentron *, AlgorithmosEktelesis ae);
+    
+    double silouette(PinakasDianismaton * pd, PinakasKentron *kentra, PinakasAnathesewn * anatheseis, AlgorithmosEktelesis ae);
 private:
-
+    double silouette(int i,int cluster_inner,int cluster_outerm, PinakasDianismaton * pd, PinakasKentron *kentra, PinakasAnathesewn * pinakasAnatheseon, list<unsigned int> * deiktis,AlgorithmosEktelesis ae);
 };
 
 #endif /* CLUSTERING_H */
