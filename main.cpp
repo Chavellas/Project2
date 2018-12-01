@@ -16,6 +16,7 @@ AM: 1115201300196
 #include "Dianisma.h"
 #include "PinakasDianismaton.h"
 #include "Clustering.h"
+#include "Ektiposeis.h"
 
 using namespace std;
 
@@ -139,6 +140,7 @@ int main(int argc, char** argv) {
     // ----------------------- clustering --------------------------
 
     Clustering clustering;
+    Ektipotis ektipotis;
 
     for (unsigned algorithmos_arxikopoiisis = Random; algorithmos_arxikopoiisis <= KmeansPP; ++algorithmos_arxikopoiisis) {
         for (unsigned algorithmos_anathesis = LLOYD; algorithmos_anathesis <= LSH; ++algorithmos_anathesis) {
@@ -185,33 +187,40 @@ int main(int argc, char** argv) {
                         kentra = clustering.kmeanspp(pinakasDianismatwn, plithos_systades, algorithmos_ektelesis);
                         break;
                 }
-                
+
                 kentra->print(cout);
 
                 // ...
 
-//                while (true) {
-//                    PinakasAnathesewn * anatheseis;
-//
-//                    switch (algorithmos_anathesis) {
-//                        case LLOYD:
-//                            anatheseis = clustering.lloyd(pinakasDianismatwn, kentra);
-//                            break;
-//                        case LSH:
-//                            anatheseis = clustering.lloyd(pinakasDianismatwn, kentra);
-//                            break;
-//                    }
-//
-//
-//                    switch (algorithmos_ananeosis) {
-//                        case PAM:
-//                            cout << "Update      : PAM " << endl;
-//                            break;
-//                        case Kmeans:
-//                            cout << "Update      : Kmeans " << endl;
-//                            break;
-//                    }
-//                }
+                while (true) {
+                    PinakasAnathesewn * anatheseis;
+
+                    switch (algorithmos_anathesis) {
+                        case LLOYD:
+                            anatheseis = clustering.lloyd(pinakasDianismatwn, kentra, algorithmos_ektelesis);
+                            break;
+                        case LSH:
+                            //                            anatheseis = clustering.lloyd(pinakasDianismatwn, kentra);
+                            break;
+                    }
+
+                    ektipotis.ektiposi(algorithmos_arxikopoiisis, algorithmos_anathesis, algorithmos_ananeosis, pinakasDianismatwn, kentra, anatheseis, algorithmos_ektelesis, false);
+
+
+
+                    switch (algorithmos_ananeosis) {
+                        case PAM:
+                            cout << "Update      : PAM " << endl;
+                            break;
+                        case Kmeans: {
+                            cout << "Update      : Kmeans " << endl;
+                            PinakasKentron * neakentra =  clustering.kmeans(pinakasDianismatwn, kentra, anatheseis, algorithmos_ektelesis);
+                            // ###
+                            break;
+                        }
+                    }
+                    break;
+                }
             }
         }
     }

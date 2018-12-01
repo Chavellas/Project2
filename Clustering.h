@@ -27,11 +27,11 @@ public:
     PinakasKentron * random(PinakasDianismaton * pd, int plithos_clusters);
     PinakasKentron * kmeanspp(PinakasDianismaton * pd, int plithos_clusters, AlgorithmosEktelesis ae);
     
-    PinakasAnathesewn * lloyd(PinakasDianismaton * pd,  PinakasKentron *);
-    PinakasAnathesewn * lsh(PinakasDianismaton * pd,  PinakasKentron *, PinakaPinakon * pinakasPinakon, int K, int L);
+    PinakasAnathesewn * lloyd(PinakasDianismaton * pd,  PinakasKentron *, AlgorithmosEktelesis ae);
+    PinakasAnathesewn * lsh(PinakasDianismaton * pd,  PinakasKentron *, PinakaPinakon * pinakasPinakon, int K, int L, AlgorithmosEktelesis ae);
     
     PinakasKentron * pam(PinakasDianismaton * pd, PinakasKentron *, PinakasAnathesewn *  );
-    PinakasKentron * kmeans(PinakasDianismaton * pd, PinakasKentron *, PinakasAnathesewn *  );
+    PinakasKentron * kmeans(PinakasDianismaton * pd, PinakasKentron *kentra, PinakasAnathesewn * anatheseis, AlgorithmosEktelesis ae);
     
 private:
 

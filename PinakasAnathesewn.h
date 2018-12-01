@@ -19,6 +19,7 @@ public:
     PinakasAnathesewn(int N);
     virtual ~PinakasAnathesewn();
 
+    void setAnathesi(unsigned int i, unsigned cluster_id) ;
     int getAnathesi(unsigned int i) ;
     int getAndCheckAnathesi(unsigned int i);
     int getN();

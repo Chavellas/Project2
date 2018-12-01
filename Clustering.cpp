@@ -17,6 +17,7 @@
 #include <map>
 #include <set>
 #include <iterator>
+#include <list>
 
 using namespace std;
 
@@ -42,7 +43,7 @@ PinakasKentron * Clustering::kmeanspp(PinakasDianismaton * pd, int plithos_clust
     Sinartiseis sinartiseis;
 
     set<unsigned int> selectedOffsets;
-    
+
     for (unsigned int i = 0; i < (unsigned) plithos_clusters; i++) {
         if (i == 0) {
             int roll = getRandomInt(0, pd->getN());
@@ -127,11 +128,38 @@ PinakasKentron * Clustering::kmeanspp(PinakasDianismaton * pd, int plithos_clust
     return kentra;
 }
 
-PinakasAnathesewn * Clustering::lloyd(PinakasDianismaton * pd, PinakasKentron *) {
-    return 0;
+PinakasAnathesewn * Clustering::lloyd(PinakasDianismaton * pd, PinakasKentron * kentra, AlgorithmosEktelesis ae) {
+    PinakasAnathesewn * anatheseis = new PinakasAnathesewn(pd->getN());
+
+    map<unsigned int, double> distanceMap;
+
+    Sinartiseis sinartiseis;
+
+
+    for (unsigned int j = 0; j < pd->getN(); j++) {
+        Dianisma * apo = pd->getDianisma(j);
+
+        for (unsigned int i = 0; i < kentra->getN(); i++) {
+            Dianisma * mexri = kentra->getDianisma(i);
+
+            double temp = sinartiseis.ypologismosApostasis(apo, mexri, ae);
+
+            if (distanceMap.find(j) == distanceMap.end()) {
+                distanceMap[j] = temp;
+                anatheseis->setAnathesi(j, i);
+            } else {
+                if (temp < distanceMap[j]) {
+                    distanceMap[j] = temp;
+                    anatheseis->setAnathesi(j, i);
+                }
+            }
+        }
+    }
+
+    return anatheseis;
 }
 
-PinakasAnathesewn * Clustering::lsh(PinakasDianismaton * pd, PinakasKentron *, PinakaPinakon * pinakasPinakon, int K, int L) {
+PinakasAnathesewn * Clustering::lsh(PinakasDianismaton * pd, PinakasKentron *, PinakaPinakon * pinakasPinakon, int K, int L, AlgorithmosEktelesis ae) {
     return 0;
 }
 
@@ -139,7 +167,51 @@ PinakasKentron * Clustering::pam(PinakasDianismaton * pd, PinakasKentron *, Pina
     return 0;
 }
 
-PinakasKentron * Clustering::kmeans(PinakasDianismaton * pd, PinakasKentron *, PinakasAnathesewn *) {
-    return 0;
+PinakasKentron * Clustering::kmeans(PinakasDianismaton * pd, PinakasKentron *kentra, PinakasAnathesewn * pinakasAnatheseon, AlgorithmosEktelesis ae) {
+    list<unsigned int> * deiktis = new list<unsigned int>[kentra->getN()];
+    int diastaseis = pd->getDianisma(0)->mikos();
+    PinakasKentron * neakentra = new PinakasKentron(kentra->getN());
+
+    // moirazw ta simeia se listes, mia gia kathe kentro
+    for (unsigned int j = 0; j < pd->getN(); j++) {
+        deiktis[pinakasAnatheseon->getAnathesi(j)].push_back(j);
+    }
+
+    
+    for (unsigned int i = 0; i < neakentra->getN(); i++) { // gia kathe cluster. ..
+        // ftiaxe ena neo kentro
+        Dianisma * neokentro = new Dianisma();
+        
+        // kai gemise tis sintetagmenes me midenika
+        for (int j = 0; j < diastaseis; j++) {
+            neokentro->SetAndCheckDedomena(j, 0);
+        }
+
+        int counter = 0;
+
+        // gia kathe simeio tou cluster
+        for (list<unsigned int>::iterator p = deiktis[i].begin(); p != deiktis[i].end(); p++) {
+
+            // gia kathe sintetagmeni
+            for (int j = 0; j < diastaseis; j++) {
+                // prosthese tin stin antistoixi sintetagmeni tou cluster
+                neokentro->SetDedomena(j, (neokentro->GetDedomena(j) + pd->getDianisma(*p)->GetDedomena(j)));
+            }
+
+            counter++;
+        }
+
+        // bres to meso oro gia kathe sintetagmeni
+        for (int j = 0; j < diastaseis; j++) {
+            neokentro->SetDedomena(j, neokentro->GetDedomena(i) / counter);
+        }
+
+        neakentra->setDianisma(i, neokentro);
+    }
+
+    delete [] deiktis;
+
+
+    return neakentra;
 }
 

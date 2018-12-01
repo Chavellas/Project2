@@ -80,6 +80,41 @@ double Sinartiseis::ypologismosApostasis(Dianisma * apo, Dianisma * mexri, Algor
     }
 }
 
+
+
+double Sinartiseis::ypologismosRizasApostasisEuclidean(Dianisma * apo, Dianisma * mexri) {
+    double apostasi = 0.0;
+
+    for (unsigned i = 0; i < apo->mikos(); i++) {
+        apostasi = apostasi + (apo->GetDedomena(i) - mexri->GetDedomena(i))*(apo->GetDedomena(i) - mexri->GetDedomena(i));
+    }
+    return apostasi;
+}
+
+double Sinartiseis::ypologismosRizasApostasisCosine(Dianisma * apo, Dianisma * mexri) {
+    double esgin = 0.0;
+    double m1 = 0.0, m2 = 0.0;
+    for (unsigned i = 0; i < apo->mikos(); i++) {
+        m1 = m1 + (apo->GetDedomena(i) * apo->GetDedomena(i));
+        m2 = m2 + (mexri->GetDedomena(i) * mexri->GetDedomena(i));
+        esgin = esgin + (apo->GetDedomena(i) * mexri->GetDedomena(i));
+    }
+    return 1 - esgin/(m1*m2) ;
+}
+
+double Sinartiseis::ypologismosRizasApostasis(Dianisma * apo, Dianisma * mexri, AlgorithmosEktelesis ae) {
+    switch (ae) {
+        case Euclidean:
+        case HyperCubeEuclidean:
+            return ypologismosRizasApostasisEuclidean(apo, mexri);
+        case HyperCubeCosine:
+        case Cosine:
+            return ypologismosRizasApostasisCosine(apo, mexri);
+        default:
+            return ypologismosRizasApostasisEuclidean(apo, mexri);
+    }
+}
+
 vector<void*> * Sinartiseis::exantlitikiAnazitisi(PinakasDianismaton * pinakasDianysmaton, Dianisma * erotima, AlgorithmosEktelesis ae) {
     Dianisma * geitonas = 0;
     double * apostasi = new double();

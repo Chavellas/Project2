@@ -24,9 +24,14 @@ public:
     std::vector<std::string> split(const std::string& s, char delimiter);
     double pollaplasiasmos(Dianisma * left, Dianisma * right);
     long int modulo(long int N, long int M);
+    
     double ypologismosApostasis(Dianisma * apo, Dianisma * mexri, AlgorithmosEktelesis ae);
     double ypologismosApostasisEuclidean(Dianisma * apo, Dianisma * mexri);
     double ypologismosApostasisCosine(Dianisma * apo, Dianisma * mexri);
+    
+    double ypologismosRizasApostasis(Dianisma * apo, Dianisma * mexri, AlgorithmosEktelesis ae);
+    double ypologismosRizasApostasisEuclidean(Dianisma * apo, Dianisma * mexri);
+    double ypologismosRizasApostasisCosine(Dianisma * apo, Dianisma * mexri);
 
     // ------------------------ ypologismoi --------------------------
 

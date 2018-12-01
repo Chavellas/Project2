@@ -29,6 +29,10 @@ int PinakasAnathesewn::getAnathesi(unsigned int i) {
     return anatheseis[i];
 }
 
+void PinakasAnathesewn::setAnathesi(unsigned int i, unsigned cluster_id)  {
+    anatheseis[i] = cluster_id;
+}
+
 int PinakasAnathesewn::getAndCheckAnathesi(unsigned int i) {
     if ((int) i < N) {
         return anatheseis[i];
