@@ -22,6 +22,7 @@ public:
     void eisagogi(Dianisma * x);
     vector<void*> * anazitisi(PinakasDianismaton * pinakasDianysmaton, Dianisma * x);
     void anazitisiSeAktina(PinakasDianismaton * pinakasDianysmaton, Dianisma * x, double aktina, vector<string> * apotelesmata);
+    void anazitisiOffsetsSeAktina(PinakasDianismaton * pinakasDianysmaton, Dianisma * x, double aktina, vector<int> * apotelesmata);
 private:
     list<unsigned int> * deiktis;
     unsigned int T;

@@ -1,3 +1,7 @@
+/*
+Chavellas Christos
+AM: 1115201300196
+ */
 
 #ifndef PINAKASKENTRON_H
 #define PINAKASKENTRON_H

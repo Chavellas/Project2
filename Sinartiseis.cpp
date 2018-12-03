@@ -6,11 +6,17 @@ AM: 1115201300196
 #include <cmath>
 #include <vector>
 #include <string>
+#include <iostream>
 #include <sstream>
 
 #include "Sinartiseis.h"
 #include "Dianisma.h"
 #include "PinakaPinakon.h"
+
+using namespace std;
+
+double ** Sinartiseis::distanceMatrix;
+unsigned int  Sinartiseis::distanceMatrixDimension;
 
 Sinartiseis::Sinartiseis() {
 }
@@ -64,23 +70,22 @@ double Sinartiseis::ypologismosApostasisCosine(Dianisma * apo, Dianisma * mexri)
     m1 = sqrt(m1);
     m2 = sqrt(m2);
 
-    return 1 - esgin/(m1*m2) ;
+    return 1 - esgin / (m1 * m2);
 }
 
 double Sinartiseis::ypologismosApostasis(Dianisma * apo, Dianisma * mexri, AlgorithmosEktelesis ae) {
-    switch (ae) {
-        case Euclidean:
-        case HyperCubeEuclidean:
-            return ypologismosApostasisEuclidean(apo, mexri);
-        case HyperCubeCosine:
-        case Cosine:
-            return ypologismosApostasisCosine(apo, mexri);
-        default:
-            return ypologismosApostasisEuclidean(apo, mexri);
-    }
+    return ypologismosRizasApostasis(apo, mexri, ae);
+    //    switch (ae) {
+    //        case Euclidean:
+    //        case HyperCubeEuclidean:
+    //            return ypologismosApostasisEuclidean(apo, mexri);
+    //        case HyperCubeCosine:
+    //        case Cosine:
+    //            return ypologismosApostasisCosine(apo, mexri);
+    //        default:
+    //            return ypologismosApostasisEuclidean(apo, mexri);
+    //    }
 }
-
-
 
 double Sinartiseis::ypologismosRizasApostasisEuclidean(Dianisma * apo, Dianisma * mexri) {
     double apostasi = 0.0;
@@ -99,10 +104,27 @@ double Sinartiseis::ypologismosRizasApostasisCosine(Dianisma * apo, Dianisma * m
         m2 = m2 + (mexri->GetDedomena(i) * mexri->GetDedomena(i));
         esgin = esgin + (apo->GetDedomena(i) * mexri->GetDedomena(i));
     }
-    return 1 - esgin/(m1*m2) ;
+    return 1 - esgin / (m1 * m2);
 }
 
 double Sinartiseis::ypologismosRizasApostasis(Dianisma * apo, Dianisma * mexri, AlgorithmosEktelesis ae) {
+    if (apo->getID() == UINT32_MAX || mexri->getID() == UINT32_MAX) {
+        switch (ae) {
+            case Euclidean:
+            case HyperCubeEuclidean:
+                return ypologismosRizasApostasisEuclidean(apo, mexri);
+            case HyperCubeCosine:
+            case Cosine:
+                return ypologismosRizasApostasisCosine(apo, mexri);
+            default:
+                return ypologismosRizasApostasisEuclidean(apo, mexri);
+        }
+    } else {
+        return distanceMatrix[apo->getID()][mexri->getID()];
+    }
+}
+
+double Sinartiseis::ypologismosRizasApostasisAnalytika(Dianisma * apo, Dianisma * mexri, AlgorithmosEktelesis ae) {
     switch (ae) {
         case Euclidean:
         case HyperCubeEuclidean:
@@ -147,7 +169,7 @@ vector<void*> * Sinartiseis::exantlitikiAnazitisi(PinakasDianismaton * pinakasDi
 
 }
 
-vector<void*> * Sinartiseis::proseggistikiAnazitisi(PinakaPinakon * pinakasPinakon, PinakasDianismaton * pinakasDianysmaton, Dianisma * erotima, AlgorithmosEktelesis ae ) {
+vector<void*> * Sinartiseis::proseggistikiAnazitisi(PinakaPinakon * pinakasPinakon, PinakasDianismaton * pinakasDianysmaton, Dianisma * erotima, AlgorithmosEktelesis ae) {
     double * xrono = new double();
     timespec ts1, ts2;
     clock_gettime(CLOCK_REALTIME, &ts1);
@@ -156,16 +178,53 @@ vector<void*> * Sinartiseis::proseggistikiAnazitisi(PinakaPinakon * pinakasPinak
     double dif = double( ts2.tv_nsec - ts1.tv_nsec); // nano
     *xrono = dif;
     apotelesmata->push_back(xrono);
-    
+
     return apotelesmata;
 }
 
-vector<string> * Sinartiseis::proseggistikiAnazitisiSeAktina(PinakaPinakon * pinakasPinakon, PinakasDianismaton * pinakasDianysmaton, Dianisma * erotima, AlgorithmosEktelesis ae, double aktina ) {
-    return pinakasPinakon->anazitisiSeAktina(pinakasDianysmaton, erotima, ae,aktina);
+vector<string> * Sinartiseis::proseggistikiAnazitisiSeAktina(PinakaPinakon * pinakasPinakon, PinakasDianismaton * pinakasDianysmaton, Dianisma * erotima, AlgorithmosEktelesis ae, double aktina) {
+    return pinakasPinakon->anazitisiSeAktina(pinakasDianysmaton, erotima, ae, aktina);
+}
+
+vector<int> * Sinartiseis::proseggistikiAnazitisiOffsetsSeAktina(PinakaPinakon * pinakasPinakon, PinakasDianismaton * pinakasDianysmaton, Dianisma * erotima, AlgorithmosEktelesis ae, double aktina) {
+    return pinakasPinakon->anazitisiOffsetsSeAktina(pinakasDianysmaton, erotima, ae, aktina);
 }
 
 void Sinartiseis::katharismosFlags(PinakasDianismaton * pinakasDianysmaton) {
     for (unsigned i = 0; i < pinakasDianysmaton->getN(); i++) {
         pinakasDianysmaton->getDianisma(i)->printed = false;
     }
+}
+
+void Sinartiseis::calculateDistanceMatrix(PinakasDianismaton * pd, AlgorithmosEktelesis ae) {
+    Sinartiseis s;
+
+    cout << "Building distance matrix ... \n";
+    Sinartiseis::distanceMatrixDimension = pd->getN();
+    
+    distanceMatrix = new double*[pd->getN()];
+    for (unsigned int i = 0; i < pd->getN(); i++) {
+        distanceMatrix[i] = new double[pd->getN()];
+    }
+    
+    for (unsigned int i = 0; i < pd->getN(); i++) {
+        for (unsigned int j = i; j < pd->getN(); j++) {
+            if (i == j) {
+                distanceMatrix[i][j] = 0;
+            } else {
+                double dist = s.ypologismosRizasApostasisAnalytika(pd->getDianisma(i), pd->getDianisma(j), ae);
+                distanceMatrix[i][j] = dist;
+                distanceMatrix[j][i] = dist;
+            }
+        }
+    }
+}
+
+void Sinartiseis::cleanupDistanceMatrix() {
+    cout << "destroying distance matrix ... \n";
+    
+    for (unsigned int i = 0; i < Sinartiseis::distanceMatrixDimension; i++) {
+        delete [] distanceMatrix[i];
+    }
+    delete [] distanceMatrix;
 }

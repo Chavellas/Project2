@@ -65,3 +65,11 @@ vector<string> * PinakaPinakon::anazitisiSeAktina(PinakasDianismaton * pinakasDi
     }
     return apotelesmata;
 }
+vector<int> * PinakaPinakon::anazitisiOffsetsSeAktina(PinakasDianismaton * pinakasDianysmaton, Dianisma * erotima, AlgorithmosEktelesis ae, double aktina) {
+	//anazitisi tou dianismatos se aktina R
+    vector<int> * apotelesmata = new vector<int>();
+    for (unsigned int i = 0; i < L; i++) {
+        pinakes[i]->anazitisiOffsetsSeAktina(pinakasDianysmaton, erotima, aktina, apotelesmata);
+    }
+    return apotelesmata;
+}

@@ -8,6 +8,7 @@ AM: 1115201300196
 
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 #include "Dianisma.h"
 #include "PinakasDianismaton.h"
@@ -30,18 +31,26 @@ public:
     double ypologismosApostasisCosine(Dianisma * apo, Dianisma * mexri);
     
     double ypologismosRizasApostasis(Dianisma * apo, Dianisma * mexri, AlgorithmosEktelesis ae);
+    double ypologismosRizasApostasisAnalytika(Dianisma * apo, Dianisma * mexri, AlgorithmosEktelesis ae);
     double ypologismosRizasApostasisEuclidean(Dianisma * apo, Dianisma * mexri);
     double ypologismosRizasApostasisCosine(Dianisma * apo, Dianisma * mexri);
 
     // ------------------------ ypologismoi --------------------------
 
+    static void calculateDistanceMatrix(PinakasDianismaton * pinakasDianysmaton, AlgorithmosEktelesis ae);
+    static void cleanupDistanceMatrix();
+    
+    
     void katharismosFlags(PinakasDianismaton * pinakasDianysmaton);
     vector<void*> * exantlitikiAnazitisi(PinakasDianismaton * pinakasDianysmaton,  Dianisma * erotima, AlgorithmosEktelesis ae );
     vector<void*> * proseggistikiAnazitisi(PinakaPinakon * pinakasPinakon, PinakasDianismaton * pinakasDianysmaton, Dianisma * erotima, AlgorithmosEktelesis ae );
     vector<string> * proseggistikiAnazitisiSeAktina(PinakaPinakon * pinakasPinakon, PinakasDianismaton * pinakasDianysmaton, Dianisma * erotima, AlgorithmosEktelesis ae, double aktina );
+    
+    vector<int> * proseggistikiAnazitisiOffsetsSeAktina(PinakaPinakon * pinakasPinakon, PinakasDianismaton * pinakasDianysmaton, Dianisma * erotima, AlgorithmosEktelesis ae, double aktina );
 
 private:
-
+    static double ** distanceMatrix;
+    static unsigned int distanceMatrixDimension;
 };
 
 #endif

@@ -3,11 +3,15 @@ Chavellas Christos
 AM: 1115201300196
  */
 
-#ifndef PINAKAPINAKON_H
-#define PINAKAPINAKON_H
+#ifndef PINAKASPINAKON_H
+#define PINAKASPINAKON_H
 
 #include "Pinakas.h"
 #include "Typoi.h"
+
+#include <vector>
+
+using namespace std;
 
 class PinakaPinakon {
 public:
@@ -16,6 +20,7 @@ public:
     void eisagogi(Dianisma * x);
     vector<void*>* anazitisi(PinakasDianismaton * pinakasDianysmaton, Dianisma * x, AlgorithmosEktelesis ae);
     vector<string> * anazitisiSeAktina(PinakasDianismaton * pinakasDianysmaton, Dianisma * x, AlgorithmosEktelesis ae, double aktina);
+    vector<int> * anazitisiOffsetsSeAktina(PinakasDianismaton * pinakasDianysmaton, Dianisma * x, AlgorithmosEktelesis ae, double aktina);
     unsigned int getL();
 private:
     Pinakas ** pinakes;

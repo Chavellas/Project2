@@ -1,14 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   Ektiposeis.h
- * Author: nikolaus
- *
- * Created on November 21, 2018, 9:12 PM
+Chavellas Christos
+AM: 1115201300196
  */
 
 #ifndef EKTIPOSEIS_H
@@ -21,7 +13,8 @@
 
 class Ektipotis {
 public:
-    void ektiposi(unsigned algorithmos_arxikopoiisis, unsigned algorithmos_anathesis, unsigned algorithmos_ananeosis,PinakasDianismaton * pd, PinakasKentron * kentra, PinakasAnathesewn * anatheseon, AlgorithmosEktelesis ae, bool leptomereies);
+    void ektiposi(ostream & out, unsigned algorithmos_arxikopoiisis, unsigned algorithmos_anathesis, unsigned algorithmos_ananeosis,PinakasDianismaton * pd, PinakasKentron * kentra, PinakasAnathesewn * anatheseon, AlgorithmosEktelesis ae, double * sil, bool leptomereies);
+    void ektiposi_ekfonisis(ostream & out, unsigned algorithmos_arxikopoiisis, unsigned algorithmos_anathesis, unsigned algorithmos_ananeosis,PinakasDianismaton * pd, PinakasKentron * kentra, PinakasAnathesewn * anatheseon, AlgorithmosEktelesis ae, double * sil, bool leptomereies, double diff);
 };
 
 #endif /* EKTIPOSEIS_H */

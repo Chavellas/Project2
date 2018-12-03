@@ -1,14 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   PinakasKentron.cpp
- * Author: nikolaus
- * 
- * Created on November 14, 2018, 9:37 PM
+Chavellas Christos
+AM: 1115201300196
  */
 
 #include "PinakasKentron.h"

@@ -1,0 +1,76 @@
+I0A0U1
+Metric: euclidean 
+Cluster-0: { size: 276,  } 
+Cluster-1: { size: 684,  } 
+Cluster-2: { size: 1912,  } 
+Cluster-3: { size: 1028,  } 
+Cluster-4: { size: 0,  } 
+Cluster-5: { size: 0,  } 
+Cluster-6: { size: 601,  } 
+Cluster-7: { size: 139,  } 
+Cluster-8: { size: 35,  } 
+Cluster-9: { size: 0,  } 
+Cluster-10: { size: 0,  } 
+Cluster-11: { size: 0,  } 
+Cluster-12: { size: 0,  } 
+Cluster-13: { size: 0,  } 
+Cluster-14: { size: 325,  } 
+Silhouette: { 0.267591  -0.0110213  0.0848246  -0.0134223  -nan  -nan  0.0387852  0.000738627  0.207654  -nan  -nan  -nan  -nan  -nan  -0.0133431  -nan}
+Clustering time: -4.24958e+08
+I0A1U1
+Metric: euclidean 
+Cluster-0: { size: 745,  } 
+Cluster-1: { size: 638,  } 
+Cluster-2: { size: 0,  } 
+Cluster-3: { size: 114,  } 
+Cluster-4: { size: 0,  } 
+Cluster-5: { size: 0,  } 
+Cluster-6: { size: 0,  } 
+Cluster-7: { size: 0,  } 
+Cluster-8: { size: 69,  } 
+Cluster-9: { size: 0,  } 
+Cluster-10: { size: 0,  } 
+Cluster-11: { size: 0,  } 
+Cluster-12: { size: 0,  } 
+Cluster-13: { size: 0,  } 
+Cluster-14: { size: 3434,  } 
+Silhouette: { -0.00810634  0.0612341  -nan  0.0947554  -nan  -nan  -nan  -nan  0.14622  -nan  -nan  -nan  -nan  -nan  0.0527965  -nan}
+Clustering time: -3.99622e+08
+I1A0U1
+Metric: euclidean 
+Cluster-0: { size: 349,  } 
+Cluster-1: { size: 895,  } 
+Cluster-2: { size: 0,  } 
+Cluster-3: { size: 0,  } 
+Cluster-4: { size: 223,  } 
+Cluster-5: { size: 0,  } 
+Cluster-6: { size: 0,  } 
+Cluster-7: { size: 0,  } 
+Cluster-8: { size: 0,  } 
+Cluster-9: { size: 3056,  } 
+Cluster-10: { size: 224,  } 
+Cluster-11: { size: 0,  } 
+Cluster-12: { size: 0,  } 
+Cluster-13: { size: 0,  } 
+Cluster-14: { size: 253,  } 
+Silhouette: { 0.229612  0.0592406  -nan  -nan  0.0689318  -nan  -nan  -nan  -nan  0.0574212  0.0408552  -nan  -nan  -nan  -0.0103536  -nan}
+Clustering time: 4.36223e+08
+I1A1U1
+Metric: euclidean 
+Cluster-0: { size: 950,  } 
+Cluster-1: { size: 929,  } 
+Cluster-2: { size: 1711,  } 
+Cluster-3: { size: 332,  } 
+Cluster-4: { size: 0,  } 
+Cluster-5: { size: 0,  } 
+Cluster-6: { size: 0,  } 
+Cluster-7: { size: 349,  } 
+Cluster-8: { size: 95,  } 
+Cluster-9: { size: 275,  } 
+Cluster-10: { size: 0,  } 
+Cluster-11: { size: 0,  } 
+Cluster-12: { size: 0,  } 
+Cluster-13: { size: 0,  } 
+Cluster-14: { size: 359,  } 
+Silhouette: { 0.0537257  -0.0373343  0.0911839  0.0113669  -nan  -nan  -nan  -0.0170374  0.121128  0.0377652  -nan  -nan  -nan  -nan  -0.0353356  -nan}
+Clustering time: -5.95997e+08

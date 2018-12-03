@@ -1,14 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   Clustering.h
- * Author: nikolaus
- *
- * Created on November 14, 2018, 9:40 PM
+Chavellas Christos
+AM: 1115201300196
  */
 
 #ifndef CLUSTERING_H
@@ -33,14 +25,16 @@ public:
     PinakasAnathesewn * lloyd(PinakasDianismaton * pd,  PinakasKentron *, AlgorithmosEktelesis ae);
     PinakasAnathesewn * lsh(PinakasDianismaton * pd,  PinakasKentron *, PinakaPinakon * pinakasPinakon, int K, int L, AlgorithmosEktelesis ae);
     
-    PinakasKentron * pam(PinakasDianismaton * pd, PinakasKentron *, PinakasAnathesewn *  );
+    PinakasKentron * pam(PinakasDianismaton * pd, PinakasKentron *, PinakasAnathesewn *  , AlgorithmosEktelesis ae);
     PinakasKentron * kmeans(PinakasDianismaton * pd, PinakasKentron *kentra, PinakasAnathesewn * anatheseis, AlgorithmosEktelesis ae);
     
     double elegxosApostasisKentron(PinakasKentron *,PinakasKentron *, AlgorithmosEktelesis ae);
     
-    double silouette(PinakasDianismaton * pd, PinakasKentron *kentra, PinakasAnathesewn * anatheseis, AlgorithmosEktelesis ae);
+    double * silouette(PinakasDianismaton * pd, PinakasKentron *kentra, PinakasAnathesewn * anatheseis, AlgorithmosEktelesis ae);
 private:
     double silouette(int i,int cluster_inner,int cluster_outerm, PinakasDianismaton * pd, PinakasKentron *kentra, PinakasAnathesewn * pinakasAnatheseon, list<unsigned int> * deiktis,AlgorithmosEktelesis ae);
+    
+    void lloydOnlyOne(int offset, PinakasDianismaton * pd,  PinakasKentron *, AlgorithmosEktelesis ae, PinakasAnathesewn * anatheseis);
 };
 
 #endif /* CLUSTERING_H */

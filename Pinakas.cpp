@@ -66,3 +66,21 @@ void Pinakas::anazitisiSeAktina(PinakasDianismaton * pinakasDianysmaton, Dianism
         }
     }
 }
+
+void Pinakas::anazitisiOffsetsSeAktina(PinakasDianismaton * pinakasDianysmaton, Dianisma * erotima, double aktina, vector<int> * apotelesmata) {
+	//ginetai anazitisi dianismaton entos aktinas R
+    Sinartiseis si;
+    unsigned int thesi = hashfunction.ypologismosThesis(erotima) % T;
+    list<unsigned int> & lista = deiktis[thesi];
+    for (list<unsigned int>::iterator p = lista.begin(); p != lista.end();p++) {
+        unsigned int index = *p;
+        Dianisma * d = pinakasDianysmaton->getDianisma(index);
+        if (d->printed == false ){
+            double trexousa = si.ypologismosApostasis(d, erotima, ae);
+            if (trexousa <= aktina) {
+                d->printed = true;
+                apotelesmata->push_back(index);
+            }
+        }
+    }
+}

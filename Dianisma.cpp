@@ -4,10 +4,10 @@ AM: 1115201300196
  */
 
 #include "Dianisma.h"
-
+#include "climits"
 Dianisma::Dianisma() {
     //arxikopoiisi dedomenon
-    id = 0;
+    id = UINT_MAX;
     printed = false;
 }
 

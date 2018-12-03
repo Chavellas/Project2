@@ -1,14 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   Clustering.cpp
- * Author: nikolaus
- * 
- * Created on November 14, 2018, 9:40 PM
+Chavellas Christos
+AM: 1115201300196
  */
 
 #include "Clustering.h"
@@ -197,29 +189,158 @@ PinakasAnathesewn * Clustering::lsh(PinakasDianismaton * pd, PinakasKentron * ke
 
     mindist *= 0.5;
     double aktina = mindist;
+    unsigned int total = 0;
+    unsigned int countdown = 20;
 
-    while (true) {
+    while (total < pd->getN() && --countdown > 0) {
+        set<int> * trees = new set<int>[pd->getN()]();
+
         for (unsigned int i = 0; i < kentra->getN(); i++) { // gia kathe cluster. ..
             Dianisma * query = kentra->getDianisma(i);
 
-            vector<string> * apotelesmata = sinartiseis.proseggistikiAnazitisiSeAktina(pinakasPinakon, pd, query, ae, aktina);
+            vector<int> * apotelesmata = sinartiseis.proseggistikiAnazitisiOffsetsSeAktina(pinakasPinakon, pd, query, ae, aktina);
 
-            // ###
-            // na perasoume parametro tis anatheseis stin proseggistikiAnazitisiSeAktina
+            for (unsigned int i = 0; i < apotelesmata->size(); i++) {
+                int offset = apotelesmata->at(i);
+                trees[offset].insert(i);
+            }
 
             delete apotelesmata;
         }
+
+        for (unsigned int i = 0; i < pd->getN(); i++) {
+            if (trees[i].size() == 0) {
+                // do nothing
+            } else if (trees[i].size() == 1) {
+                if (anatheseis->getAnathesi(i) == -1) {
+                    anatheseis->setAnathesi(i, *(trees[i].begin()));
+                    total++;
+                }
+            } else {
+                if (anatheseis->getAnathesi(i) == -1) {
+                    PinakasKentron *prosorinakentra = new PinakasKentron(trees[i].size());
+
+                    int j = 0;
+                    for (set<int>::iterator p = trees[i].begin(); p != trees[i].end(); ++p) {
+                        prosorinakentra->setDianisma(j++, kentra->getDianisma(*p));
+                    }
+
+                    lloydOnlyOne(i, pd, prosorinakentra, ae, anatheseis);
+                    total++;
+
+                    delete prosorinakentra;
+                }
+            }
+        }
+
+        delete [] trees;
+
         aktina = 2 * aktina;
     }
 
 
-
+    for (int i = 0; i < anatheseis->getN(); i++) {
+        if (anatheseis->getAnathesi(i) == -1 || anatheseis->getEfedrikiAnathesi(i) == -1) {
+            lloydOnlyOne(i, pd, kentra, ae, anatheseis);
+        }
+    }
 
     return anatheseis;
 }
 
-PinakasKentron * Clustering::pam(PinakasDianismaton * pd, PinakasKentron *, PinakasAnathesewn *) {
-    return 0;
+PinakasKentron * Clustering::pam(PinakasDianismaton * pd, PinakasKentron * kentra, PinakasAnathesewn * pinakasAnatheseon, AlgorithmosEktelesis ae) {
+    list<unsigned int> * deiktis = new list<unsigned int>[kentra->getN()];
+    PinakasKentron * neakentra = new PinakasKentron(kentra->getN());
+
+    Sinartiseis sinartiseis;
+
+    // moirazw ta simeia se listes, mia gia kathe kentro
+    for (unsigned int j = 0; j < pd->getN(); j++) {
+        deiktis[pinakasAnatheseon->getAnathesi(j)].push_back(j);
+    }
+
+    double djtotal = 0;
+
+    for (unsigned int c = 0; c < neakentra->getN(); c++) { // gia kathe cluster. ..
+        if (deiktis[c].size() > 1) {
+            // bres medoid:
+            double mindistance = DBL_MAX;
+            unsigned int medoid;
+
+            for (list<unsigned int>::iterator p1 = deiktis[c].begin(); p1 != deiktis[c].end(); p1++) {
+                double sumdist = 0;
+                for (list<unsigned int>::iterator p2 = deiktis[c].begin(); p2 != deiktis[c].end(); p2++) {
+                    if (*p1 != *p2) {
+                        Dianisma * apo = pd->getDianisma(c);
+                        Dianisma * mexri = pd->getDianisma(c);
+
+                        double temp = sinartiseis.ypologismosApostasis(apo, mexri, ae);
+
+                        sumdist = sumdist + temp;
+                    }
+                }
+
+                sumdist = sumdist / (deiktis[c].size() - 1);
+
+                if (sumdist < mindistance) {
+                    mindistance = sumdist;
+                    medoid = *p1;
+                }
+            }
+
+            // calculate DJ
+            double dj = 0;
+
+            for (unsigned int j = 0; j < pd->getN(); j++) {
+                if (pinakasAnatheseon->getAnathesi(j) == (int) c) { // internal
+                    Dianisma * apo = pd->getDianisma(j);
+                    Dianisma * mexri = pd->getDianisma(medoid);
+                    double distance_i_t = sinartiseis.ypologismosApostasis(apo, mexri, ae);
+
+                    mexri = kentra->getAndCheckDianisma(pinakasAnatheseon->getEfedrikiAnathesi(j));
+                    double distance_i_cc = sinartiseis.ypologismosApostasis(apo, mexri, ae);
+
+                    mexri = kentra->getAndCheckDianisma(c);
+                    double distance_i_m = sinartiseis.ypologismosApostasis(apo, mexri, ae);
+
+                    if (distance_i_t <= distance_i_cc) {
+                        dj = dj + (distance_i_t - distance_i_m);
+                    } else {
+                        dj = dj + (distance_i_cc - distance_i_m);
+                    }
+                } else { // external
+                    Dianisma * apo = pd->getDianisma(j);
+                    Dianisma * mexri = pd->getDianisma(medoid);
+                    double distance_i_t = sinartiseis.ypologismosApostasis(apo, mexri, ae);
+
+                    mexri = kentra->getAndCheckDianisma(pinakasAnatheseon->getAnathesi(j));
+                    double distance_i_c = sinartiseis.ypologismosApostasis(apo, mexri, ae);
+
+                    if (distance_i_t >= distance_i_c) {
+                        dj = dj + 0;
+                    } else {
+                        dj = dj + (distance_i_t - distance_i_c);
+                    }
+                }
+            }
+
+            if (dj < 0) {
+                djtotal = djtotal + dj;
+                neakentra->setDianisma(c, pd->getDianisma(medoid));
+            }
+        } else {
+            neakentra->setDianisma(c, kentra->getDianisma(c));
+        }
+    }
+
+    delete [] deiktis;
+
+
+    if (djtotal < 0) {
+        return neakentra;
+    } else {
+        return kentra;
+    }
 }
 
 PinakasKentron * Clustering::kmeans(PinakasDianismaton * pd, PinakasKentron *kentra, PinakasAnathesewn * pinakasAnatheseon, AlgorithmosEktelesis ae) {
@@ -288,8 +409,9 @@ double Clustering::elegxosApostasisKentron(PinakasKentron * kentra, PinakasKentr
     return maxdistance;
 }
 
-double Clustering::silouette(PinakasDianismaton * pd, PinakasKentron *kentra, PinakasAnathesewn * pinakasAnatheseon, AlgorithmosEktelesis ae) {
-    double sum = 0;
+double * Clustering::silouette(PinakasDianismaton * pd, PinakasKentron *kentra, PinakasAnathesewn * pinakasAnatheseon, AlgorithmosEktelesis ae) {
+    double * results = new double[kentra->getN() + 1];
+    double stotal = 0;
 
     list<unsigned int> * deiktis = new list<unsigned int>[kentra->getN()];
 
@@ -297,16 +419,30 @@ double Clustering::silouette(PinakasDianismaton * pd, PinakasKentron *kentra, Pi
         deiktis[pinakasAnatheseon->getAnathesi(j)].push_back(j);
     }
 
-    for (unsigned int j = 0; j < pd->getN(); j++) {
-        int cluster_inner = pinakasAnatheseon->getAnathesi(j);
-        int cluster_outer = pinakasAnatheseon->getEfedrikiAnathesi(j);
-        sum = sum + silouette(j, cluster_inner, cluster_outer, pd, kentra, pinakasAnatheseon, deiktis, ae);
+    for (unsigned int cluster_inner = 0; cluster_inner < kentra->getN(); cluster_inner++) {
+        double scluster = 0;
+
+        for (list<unsigned int>::iterator p1 = deiktis[cluster_inner].begin(); p1 != deiktis[cluster_inner].end(); p1++) {
+            int i = *p1;
+
+            int cluster_outer = pinakasAnatheseon->getEfedrikiAnathesi(i);
+            scluster = scluster + silouette(i, cluster_inner, cluster_outer, pd, kentra, pinakasAnatheseon, deiktis, ae);
+        }
+        scluster = scluster / deiktis[cluster_inner].size();
+
+        stotal = stotal + scluster;
+
+        results[cluster_inner] = scluster;
     }
-    sum = sum / pd->getN();
+
+    stotal = stotal / kentra->getN();
+
 
     delete [] deiktis;
 
-    return sum;
+    results[kentra->getN()] = stotal;
+
+    return results;
 }
 
 double Clustering::silouette(int i, int cluster_inner, int cluster_outer, PinakasDianismaton * pd, PinakasKentron *kentra, PinakasAnathesewn * pinakasAnatheseon, list<unsigned int> * deiktis, AlgorithmosEktelesis ae) {
@@ -346,4 +482,39 @@ double Clustering::silouette(int i, int cluster_inner, int cluster_outer, Pinaka
 
     return sil;
 
+}
+
+void Clustering::lloydOnlyOne(int offset, PinakasDianismaton * pd, PinakasKentron *kentra, AlgorithmosEktelesis ae, PinakasAnathesewn * anatheseis) {
+    map<unsigned int, double> distanceMap;
+    map<unsigned int, double> secondDistanceMap;
+
+    Sinartiseis sinartiseis;
+
+    unsigned int j = offset;
+    Dianisma * apo = pd->getDianisma(j);
+
+    for (unsigned int i = 0; i < kentra->getN(); i++) {
+        Dianisma * mexri = kentra->getDianisma(i);
+
+        double temp = sinartiseis.ypologismosApostasis(apo, mexri, ae);
+
+        if (distanceMap.find(j) == distanceMap.end()) {
+            distanceMap[j] = temp;
+            anatheseis->setAnathesi(j, i);
+        } else {
+            if (temp < distanceMap[j]) {
+                secondDistanceMap[j] = distanceMap[j];
+                anatheseis->setEfedrikiAnathesi(j, anatheseis->getAnathesi(j));
+
+                distanceMap[j] = temp;
+                anatheseis->setAnathesi(j, i);
+            } else if (secondDistanceMap.find(j) == secondDistanceMap.end()) {
+                secondDistanceMap[j] = temp;
+                anatheseis->setEfedrikiAnathesi(j, i);
+            } else if (temp < secondDistanceMap[j]) {
+                secondDistanceMap[j] = temp;
+                anatheseis->setEfedrikiAnathesi(j, i);
+            }
+        }
+    }
 }
